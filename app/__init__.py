@@ -2,8 +2,11 @@ from flask import Flask
 
 app = Flask(__name__)
 # rutas
-@app.route('/')
+@app.route("/")
 def index():
-    return "Hola mundo!!"
-def inicializar_app():
+    return "Hola mundo con compilando!!"
+
+
+def inicializar_app(config):
+    app.config.from_object(config)
     return app
