@@ -4,7 +4,7 @@ app = Flask(__name__)
 # rutas
 @app.route("/")
 def index():
-    return "Hola mundo con compilando!!"
+    return render_template('index.html')
 # ruta para paginas no encontradas 
 def pagina_no_encontrada(error):
     return render_template('errores/404.html'), 404
