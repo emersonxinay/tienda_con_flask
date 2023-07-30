@@ -1,8 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_mysqldb import MySQL
 from flask_wtf.csrf import CSRFProtect
-
+from .models.entities.Usuario import Usuario
 from .models.ModeloLibro import ModeloLibro
+from .models.ModeloUsuario import ModeloUsuario
 
 app = Flask(__name__)
 # protección para ataques
@@ -29,7 +30,9 @@ def login():
         # print(request.form['usuario'])
         # print(request.form['password'])
         # return 'ok'
-        if request.form['usuario']=='admin1' and request.form['password']=="123456":
+        usuario = Usuario(None, request.form['usuario'], request.form['password'], None)
+        usuario_logeado = ModeloUsuario.login(db, usuario)
+        if usuario_logeado != None :
             return redirect(url_for('index'))
         else:
             
