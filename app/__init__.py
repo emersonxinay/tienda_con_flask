@@ -1,9 +1,13 @@
 from flask import Flask, render_template, request, redirect, url_for
+from flask_mysqldb import MySQL
 from flask_wtf.csrf import CSRFProtect
+from .models.ModeloLibro import ModeloLibro
+
 app = Flask(__name__)
 # protección para ataques
 csrf = CSRFProtect()
-
+# conecta la  base de datos 
+db= MySQL(app)
 # rutas
 @app.route("/")
 def index():
@@ -28,6 +32,19 @@ def login():
             return render_template('auth/login.html')
     else:
         return render_template('auth/login.html')
+
+# rutas para probar base de datos 
+@app.route('/libros')
+def listar_libros():
+    try:
+        libros= ModeloLibro.listar_libros(db)
+        data={
+            'libros':libros
+        }
+        return render_template('listado_libros.html', data=data)
+
+    except Exception as ex:
+        print(ex) 
 
 # ruta para paginas no encontradas 
 def pagina_no_encontrada(error):

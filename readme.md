@@ -58,3 +58,5 @@ python manage.py runserver
 ```bash
 pip install FLask-WTF
 ```
+
+## instalar modulos para base de datos 
