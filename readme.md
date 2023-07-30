@@ -60,3 +60,6 @@ pip install FLask-WTF
 ```
 
 ## instalar modulos para base de datos 
+```bash
+pip install mysqlclient flask-mysql flask-mysqldb
+```
