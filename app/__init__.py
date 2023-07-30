@@ -1,10 +1,26 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 
 app = Flask(__name__)
 # rutas
 @app.route("/")
 def index():
     return render_template('index.html')
+
+# ruta para login
+@app.route('/login', methods = ['GET', 'POST'])
+def login():
+    """
+    print(request.method)
+    print(request.form['usuario'])
+    print(request.form['password'])
+    """
+    if request.method=='POST':
+        print(request.form['usuario'])
+        print(request.form['password'])
+        return 'ok'
+    else:
+        return render_template('auth/login.html')
+
 # ruta para paginas no encontradas 
 def pagina_no_encontrada(error):
     return render_template('errores/404.html'), 404

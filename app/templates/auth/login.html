@@ -1,0 +1,39 @@
+{%extends './base.html'%}
+
+{% block title %} inicio de sesion {%endblock %}
+{% block customCSS%}
+<link rel="stylesheet" href="{{url_for('static', filename='css/login.css')}}">
+{% endblock%}
+{% block body%}
+<div class="container">
+
+    <form class= "form-signin w-100 m-auto  bg-dark mt-4" action="/login" method="POST" >
+        <div class="content_logo">
+    
+            <img class="mb-4" src="{{url_for('static', filename='img/logo_tienda.png') }}" alt="" width="72" height="57">
+        </div>
+        <h1 class="h3 text-center text-white mb-3 fw-normal">Inicio de sesión</h1>
+    
+        <div class="form-floating mb-4">
+          <input type="text" name="usuario" class="form-control" id="usuario" placeholder="Usuario">
+          <label for="usuario">Usuario</label>
+        </div>
+        <div class="form-floating">
+          <input type="password" name="password" class="form-control" id="password" placeholder="Password">
+          <label for="password">Password</label>
+        </div>
+    
+        
+        <button class="btn btn-primary w-100 py-2" type="submit">Iniciar sesión </button>
+        <p class="mt-5 mb-3 text-center text-white ">© 2023 </p>
+    </form>
+</div>
+
+<!-- bloque javascript para moduficar estilos  -->
+
+{% block customJS %}
+    <script src="{{url_for('static', filename='js/login.js')}}"></script>
+
+{% endblock %}
+
+{%endblock%}
