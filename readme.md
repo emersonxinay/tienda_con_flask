@@ -54,3 +54,7 @@ ahora sí
 python manage.py runserver
 ```
 
+## para evitar vulnerabilidad en pagina en formularios
+```bash
+pip install FLask-WTF
+```

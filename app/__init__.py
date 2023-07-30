@@ -1,6 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for
-
+from flask_wtf.csrf import CSRFProtect
 app = Flask(__name__)
+# protección para ataques
+csrf = CSRFProtect()
+
 # rutas
 @app.route("/")
 def index():
@@ -31,5 +34,6 @@ def pagina_no_encontrada(error):
 
 def inicializar_app(config):
     app.config.from_object(config)
+    csrf.init_app(app)
     app.register_error_handler(404, pagina_no_encontrada)
     return app

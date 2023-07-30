@@ -8,6 +8,7 @@
 <div class="container">
 
     <form class= "form-signin w-100 m-auto  bg-dark mt-4" action="/login" method="POST" >
+        <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
         <div class="content_logo">
     
             <img class="mb-4" src="{{url_for('static', filename='img/logo_tienda.png') }}" alt="" width="72" height="57">

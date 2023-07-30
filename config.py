@@ -1,5 +1,6 @@
 class Config:
-    pass
+    # para tokens personalizados 
+    SECRET_KEY= 'grYTYG4#jsjs'
 class DevelopmentConfig(Config):
     DEBUG = True 
 
