@@ -3,8 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- icono logotipo -->
+    <link rel="shortcut icon" href="{{url_for('static', filename='img/logo_tienda.png')}}" type="image/x-icon">
     <!-- bloque para titulo dinamico  -->
     <title>{% block title%} {% endblock%}</title>
+    <!-- cdn bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <!-- bloque para css -->
     {% block customCSS%}
     {% endblock%}
@@ -16,6 +20,8 @@
     {% endblock %}
 
     <!-- bloque para javascript  -->
+    <!-- cdn javascript de bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
     {% block customJS %}
 
     {% endblock %}
