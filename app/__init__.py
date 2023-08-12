@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_mysqldb import MySQL
 from flask_wtf.csrf import CSRFProtect
 from flask_login import LoginManager, login_user, logout_user
@@ -43,14 +43,17 @@ def login():
         usuario_logeado = ModeloUsuario.login(db, usuario)
         if usuario_logeado != None :
             login_user(usuario_logeado)
+           
             return redirect(url_for('index'))
         else:
+            flash("Credenciales invalidas...")
             return render_template('auth/login.html')
     else:
         return render_template('auth/login.html')
 @app.route('/logout')
 def logout():
     logout_user()
+    flash('Cerraste sesión exitosamente.')
     return redirect(url_for('login'))
 
 
