@@ -6,4 +6,4 @@ class Autor():
         self.fechanacimiento=fechanacimiento
     
     def nombre_completo(self):
-        return f"{self.apellidos, self.nombres}"
+        return "{0},{1}".format(self.apellidos, self.nombres)
