@@ -7,7 +7,7 @@
 {% block body%}
 <div class="container">
 
-    <form class= "form-signin w-100 m-auto  bg-dark mt-4" action="/login" method="POST" >
+    <form class= "form-signin w-100 m-auto  bg-success mt-4" action="/login" method="POST" >
         <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
         <div class="content_logo">
     
@@ -26,6 +26,23 @@
     
         
         <button class="btn btn-primary w-100 py-2" type="submit">Iniciar sesión </button>
+        {% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        {% if category == 'warning'%}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          <strong>{{message}}</strong> 
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% else %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <strong>{{message}}</strong> 
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
         <p class="mt-5 mb-3 text-center text-white ">© 2023 </p>
     </form>
 </div>
