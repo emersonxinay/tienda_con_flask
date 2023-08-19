@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_mysqldb import MySQL
 from flask_wtf.csrf import CSRFProtect
-from flask_login import LoginManager, login_required, login_user, logout_user
+from flask_login import LoginManager, current_user, login_required, login_user, logout_user
 from .models.ModeloLibro import ModeloLibro
 from .models.ModeloUsuario import ModeloUsuario
 from .models.entities.Usuario import Usuario
@@ -22,10 +22,7 @@ def load_user(id):
     
 
 # rutas
-@app.route("/")
-@login_required
-def index():
-    return render_template('index.html')
+
 # generar encriptación de  password
 @app.route('/password/<password>')
 def generar_password(password):
@@ -57,23 +54,27 @@ def logout():
     flash(LOGOUT, 'success')
     return redirect(url_for('login'))
 
+@app.route("/")
+@login_required
+def index():
+    if current_user.is_authenticated:
+        if current_user.tipousuario.id == 1:
+            libros_vendidos = []
+            data = {
+                'titulo': 'Libros Vendidos',
+                'libros_vendidos': libros_vendidos
 
-# # rutas para probar base de datos 
-# @app.route('/libros')
-# def listar_libros():
-#     try:
-#         cursor = db.connection.cursor()
-#         sql = "SELECT LIB.isbn, LIB.titulo, LIB.anioedicion, LIB.precio, AUT.apellidos, AUT.nombres FROM libro LIB JOIN autor AUT ON LIB.autor_id = AUT.id ORDER BY LIB.titulo ASC"
-#         cursor.execute(sql)
-#         data = cursor.fetchall()
-#         data = {
-#             "libros":data
-#         }
-#         return render_template('listado_libros.html', data=data)
+            }
+        else:
+            compras = []
+            data = {
+                'titulo': 'Mis compras',
+                'compras': compras
 
-#     except Exception as ex:
-#         raise Exception(ex)
-
+            }
+        return render_template('index.html', data = data)
+    else:
+        return redirect(url_for('login'))
 @app.route('/libros')
 @login_required
 def listar_libros():
