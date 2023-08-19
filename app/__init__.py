@@ -43,7 +43,7 @@ def login():
         usuario_logeado = ModeloUsuario.login(db, usuario)
         if usuario_logeado != None :
             login_user(usuario_logeado)
-           
+            
             return redirect(url_for('index'))
         else:
             flash("Credenciales invalidas...")
