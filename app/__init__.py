@@ -6,7 +6,7 @@ from .models.ModeloLibro import ModeloLibro
 from .models.ModeloUsuario import ModeloUsuario
 from .models.entities.Usuario import Usuario
 from werkzeug.security import generate_password_hash, check_password_hash
-
+from .consts import * 
 
 app = Flask(__name__)
 # protección para ataques
@@ -46,14 +46,14 @@ def login():
             
             return redirect(url_for('index'))
         else:
-            flash("Credenciales invalidas...")
+            flash(LOGIN_CREDENTIALSINVALIDAS)
             return render_template('auth/login.html')
     else:
         return render_template('auth/login.html')
 @app.route('/logout')
 def logout():
     logout_user()
-    flash('Cerraste sesión exitosamente.')
+    flash(LOGOUT)
     return redirect(url_for('login'))
 
 
