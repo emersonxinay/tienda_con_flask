@@ -1,12 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Libros</title>
-</head>
-<body>
-    
+{% extends './base.html'%}
+{% block body%}
+{% include './nav.html'%}
+<div class="container py-3 ">
+    {% block container%}
     <table>
        
         {% for l in data.libros%}
@@ -21,5 +17,9 @@
             </tr>
         {% endfor%}
     </table>
-</body>
-</html>
+    {% endblock %}
+
+</div>
+{% endblock %}
+    
+   

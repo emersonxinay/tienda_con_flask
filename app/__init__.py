@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_mysqldb import MySQL
 from flask_wtf.csrf import CSRFProtect
-from flask_login import LoginManager, login_user, logout_user
+from flask_login import LoginManager, login_required, login_user, logout_user
 from .models.ModeloLibro import ModeloLibro
 from .models.ModeloUsuario import ModeloUsuario
 from .models.entities.Usuario import Usuario
@@ -23,6 +23,7 @@ def load_user(id):
 
 # rutas
 @app.route("/")
+@login_required
 def index():
     return render_template('index.html')
 # generar encriptación de  password
@@ -74,24 +75,28 @@ def logout():
 #         raise Exception(ex)
 
 @app.route('/libros')
+@login_required
 def listar_libros():
     try:
         libros = ModeloLibro.listar_libros(db)
         data = {
+            'titulo': 'Listado de libros',
             'libros': libros
         }
-        return render_template('listado_libros.html', libros=libros)
-
+        return render_template('listado_libros.html', data=data)
     except Exception as ex:
-        print(ex)
-        # return "Ocurrió un error"
+        return render_template('errores/404.html', mensaje=format(ex))
 
 # ruta para paginas no encontradas 
 def pagina_no_encontrada(error):
     return render_template('errores/404.html'), 404
 
+def pagina_no_autorizada(error):
+    return redirect(url_for('login'))
+
 def inicializar_app(config):
     app.config.from_object(config)
     csrf.init_app(app)
+    app.register_error_handler(401, pagina_no_autorizada)
     app.register_error_handler(404, pagina_no_encontrada)
     return app
