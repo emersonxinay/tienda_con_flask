@@ -1,9 +1,12 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, jsonify, render_template, request, redirect, url_for, flash
 from flask_mysqldb import MySQL
 from flask_wtf.csrf import CSRFProtect
 from flask_login import LoginManager, current_user, login_required, login_user, logout_user
+from .models.ModeloCompra import ModeloCompra
 from .models.ModeloLibro import ModeloLibro
 from .models.ModeloUsuario import ModeloUsuario
+from .models.ModeloCompra import Compra 
+from .models.entities.Libro import Libro
 from .models.entities.Usuario import Usuario
 from werkzeug.security import generate_password_hash, check_password_hash
 from .consts import * 
@@ -66,7 +69,7 @@ def index():
 
             }
         else:
-            compras = []
+            compras = ModeloCompra.listar_compras_usuario(db, current_user)
             data = {
                 'titulo': 'Mis compras',
                 'compras': compras
@@ -87,6 +90,42 @@ def listar_libros():
         return render_template('listado_libros.html', data=data)
     except Exception as ex:
         return render_template('errores/error.html', mensaje=format(ex))
+
+@app.route('/comprarLibro', methods=['POST'])
+@login_required
+def comprar_libro():
+    data_request = request.get_json()
+    data = {}
+    try:
+        libro = Libro(data_request['isbn'], None, None, None, None)
+        libro = ModeloLibro.leer_libro(db, data_request['isbn'])
+        compra = Compra(None, libro, current_user)
+        data['exito'] = ModeloCompra.registrar_compra(db, compra)
+        # confirmacion_compra(mail, current_user, libro) # Envío normal.
+    
+        # Este es un comentario.
+    except Exception as ex:
+        data['mensaje'] = format(ex)
+        data['exito'] = False
+    return jsonify(data)
+
+# @app.route('/comprarLibro', methods=['POST'])
+# @login_required
+# def comprar_libro():
+#     data_request = request.get_json()
+#     data = {}
+#     try:
+#         # libro = Libro(data_request['isbn'], None, None, None, None)
+#         libro = ModeloLibro.leer_libro(db, data_request['isbn'])
+#         compra = Compra(None, libro, current_user)
+#         data['exito'] = ModeloCompra.registrar_compra(db, compra)
+#         # confirmacion_compra(mail, current_user, libro) # Envío normal.
+#         confirmacion_compra(app, mail, current_user, libro) # Envío asíncrono.
+#         # Este es un comentario.
+#     except Exception as ex:
+#         data['mensaje'] = format(ex)
+#         data['exito'] = False
+#     return jsonify(data)
 
 # ruta para paginas no encontradas 
 def pagina_no_encontrada(error):

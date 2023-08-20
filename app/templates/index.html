@@ -10,6 +10,7 @@
         <h1>tienda Compilando Código </h1>
         {%with messages = get_flashed_messages() %}
         {% if messages %}
+
         {% for message in messages %}
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             <strong>{{message}}</strong> 
@@ -38,6 +39,19 @@
     {%endif %}
     {% else %}
     {% if data.compras|length > 0 %}
+    {% for c in data.compras %}
+    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
+        <div class="card mb-4 shadow-sm">
+            {% set url = 'img/portadas/' + c.libro.isbn + '.jpg' %}
+            <img class="card-img-top" src="{{ url_for('static', filename=url) }}" height="320" alt="{{ c.libro.titulo }}" />
+            <div class="card-body">
+                <h5 class="card-title">{{ c.libro.titulo }} <span style="float: right;">S/. {{ c.libro.precio }}</span></h5>
+                <p class="card-text">Comprado: {{ c.formatted_date() }}</p>
+                
+            </div>
+        </div>
+    </div>
+    {% endfor %}
     {% else %}
     <div class="col-sm-12 col-ms-12 col-lg-12 col-xl-12 ">
         <h2> Aún no has comprado libros ... </h2>
