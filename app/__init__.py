@@ -2,6 +2,7 @@ from flask import Flask, jsonify, render_template, request, redirect, url_for, f
 from flask_mysqldb import MySQL
 from flask_wtf.csrf import CSRFProtect
 from flask_login import LoginManager, current_user, login_required, login_user, logout_user
+from flask_mail import Mail
 from .models.ModeloCompra import ModeloCompra
 from .models.ModeloLibro import ModeloLibro
 from .models.ModeloUsuario import ModeloUsuario
@@ -10,6 +11,7 @@ from .models.entities.Libro import Libro
 from .models.entities.Usuario import Usuario
 from werkzeug.security import generate_password_hash, check_password_hash
 from .consts import * 
+from .emails import confirmacion_compra
 
 app = Flask(__name__)
 # protección para ataques
@@ -18,11 +20,11 @@ csrf = CSRFProtect()
 db= MySQL(app)
 
 login_manager_app = LoginManager(app)
+mail=Mail()
 @login_manager_app.user_loader
 def load_user(id):
     return ModeloUsuario.obtener_por_id(db, id)
 
-    
 
 # rutas
 
@@ -104,17 +106,18 @@ def comprar_libro():
     data_request = request.get_json()
     data = {}
     try:
-        libro = Libro(data_request['isbn'], None, None, None, None)
+        # libro = Libro(data_request['isbn'], None, None, None, None)
         libro = ModeloLibro.leer_libro(db, data_request['isbn'])
         compra = Compra(None, libro, current_user)
         data['exito'] = ModeloCompra.registrar_compra(db, compra)
         # confirmacion_compra(mail, current_user, libro) # Envío normal.
-    
+        confirmacion_compra(app, mail, current_user, libro) # Envío asíncrono.
         # Este es un comentario.
     except Exception as ex:
         data['mensaje'] = format(ex)
         data['exito'] = False
     return jsonify(data)
+
 
 # @app.route('/comprarLibro', methods=['POST'])
 # @login_required
@@ -144,6 +147,7 @@ def pagina_no_autorizada(error):
 def inicializar_app(config):
     app.config.from_object(config)
     csrf.init_app(app)
+    mail.init_app(app)
     app.register_error_handler(401, pagina_no_autorizada)
     app.register_error_handler(404, pagina_no_encontrada)
     return app

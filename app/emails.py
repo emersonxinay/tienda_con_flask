@@ -7,7 +7,7 @@ def confirmacion_compra(mail, usuario, libro):
     try:
         message = Message('Confirmación de compra de libro',
                           sender=current_app.config['MAIL_USERNAME'],
-                          recipients=['uskokrum2010@gmail.com'])
+                          recipients=['xinayespinoza@gmail.com'])
         message.html = render_template(
             'emails/confirmacion_compra.html', usuario=usuario, libro=libro)
         mail.send(message)
@@ -20,7 +20,7 @@ def confirmacion_compra(app, mail, usuario, libro):
     try:
         message = Message('Confirmación de compra de libro',
                           sender=current_app.config['MAIL_USERNAME'],
-                          recipients=['uskokrum2010@gmail.com'])
+                          recipients=['xinayespinoza@gmail.com'])
         message.html = render_template(
             'emails/confirmacion_compra.html', usuario=usuario, libro=libro)
         thread = Thread(target=envio_email_async, args=[app, mail, message])
