@@ -86,7 +86,7 @@ def listar_libros():
         }
         return render_template('listado_libros.html', data=data)
     except Exception as ex:
-        return render_template('errores/404.html', mensaje=format(ex))
+        return render_template('errores/error.html', mensaje=format(ex))
 
 # ruta para paginas no encontradas 
 def pagina_no_encontrada(error):
