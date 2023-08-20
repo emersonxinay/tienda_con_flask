@@ -1,5 +1,6 @@
 # Tienda con FLask
 
+<img src="./app/static/img/pantallazos/lista_libros.png">
 
 ## crear entorno virtual en mac o linux 
 ```bash 
@@ -63,3 +64,20 @@ pip install FLask-WTF
 ```bash
 pip install mysqlclient flask-mysql flask-mysqldb
 ```
+
+## instalar modulos para envio a correo electronico 
+```bash
+pip install flask_mail python-decouple python-dotenv
+```
+# pantallazos 
+## login usuario 
+<img src="./app/static/img/pantallazos/iniciar_sesion.png">
+
+## comprando un libro
+<img src="./app/static/img/pantallazos/libro_comprado.png">
+
+## Lista de mis libros comprados 
+<img src="./app/static/img/pantallazos/compras_libros.png">
+
+## usuario Administrador ve que libros se vendieron 
+<img src="./app/static/img/pantallazos/libros_vendidos.png">
