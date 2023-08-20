@@ -5,4 +5,5 @@ class Libro():
         self.autor=autor
         self.anioedicion=anioedicion
         self.precio=precio
+        self.unidades_vendidas=0
         
